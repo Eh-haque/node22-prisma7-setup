@@ -1,6 +1,7 @@
 
-import { prisma } from "./lib/prisma";
 import { v4 as uuid } from "uuid";
+import { prisma } from "./lib/prisma.js";
+import app from "./app.js";
 
 async function main() {
   // Create a new user with a post
@@ -22,13 +23,10 @@ async function main() {
   });
   console.log("Created user:", user);
 
-  // Fetch all users with their posts
-  const allUsers = await prisma.user.findMany({
-    include: {
-      posts: true,
-    },
+  // start server
+  app.listen(process.env.PORT || 3000, () => {
+    console.log('Server started on port 3000');
   });
-  console.log("All users:", JSON.stringify(allUsers, null, 2));
 }
 
 main()
